@@ -18,6 +18,9 @@
 		"ios": {
 			"supportsTablet": false
 		},
+		"android": {
+			"permissions": ["CAMERA_ROLL"]
+		},
 		"web": {
 			"favicon": "./assets/favicon.png"
 		}
