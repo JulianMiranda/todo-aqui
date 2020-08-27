@@ -2,11 +2,10 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
-import RestaurantStack from './RestaurantStack';
+import AnounceStack from './AnounceStack';
 import FavoritesStack from './FavoritesStack';
 import SearchStack from './SearchStack';
 import AccountStack from './AccountStack';
-import TopRestaurantStack from './TopRestaurantStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,9 +23,9 @@ export default function Navigation() {
 				})}
 			>
 				<Tab.Screen
-					name="restaurants"
-					component={RestaurantStack}
-					options={{title: 'Restaurantes'}}
+					name="anounces"
+					component={AnounceStack}
+					options={{title: 'Anounces'}}
 				/>
 				<Tab.Screen
 					name="favorites"
@@ -37,11 +36,6 @@ export default function Navigation() {
 					name="search"
 					component={SearchStack}
 					options={{title: 'Search'}}
-				/>
-				<Tab.Screen
-					name="topRestaurants"
-					component={TopRestaurantStack}
-					options={{title: 'Top 5'}}
 				/>
 				<Tab.Screen
 					name="account"
@@ -57,7 +51,7 @@ function screenOptions(route, color) {
 	let iconName;
 
 	switch (route.name) {
-		case 'restaurants':
+		case 'anounces':
 			iconName = 'compass-outline';
 			break;
 		case 'favorites':
@@ -65,9 +59,6 @@ function screenOptions(route, color) {
 			break;
 		case 'search':
 			iconName = 'magnify';
-			break;
-		case 'topRestaurants':
-			iconName = 'star-outline';
 			break;
 		case 'account':
 			iconName = 'home-outline';

@@ -12,5 +12,6 @@ export default function Account() {
 		});
 	}, []);
 	if (login === null) return <Loading isVisible={true} text="Cargando..." />;
+	console.log(login);
 	return login ? <UserLogged /> : <UserGuest />;
 }
