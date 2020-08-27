@@ -1,9 +1,9 @@
 export const firebaseConfig = {
-	apiKey: 'AIzaSyBodlPSGUTNgc8f-pNcouKpPHz1dm19RfM',
-	authDomain: 'cormapi-4f3b7.firebaseapp.com',
-	databaseURL: 'https://cormapi-4f3b7.firebaseio.com',
-	projectId: 'cormapi-4f3b7',
-	storageBucket: 'cormapi-4f3b7.appspot.com',
-	messagingSenderId: '171940871468',
-	appId: '1:171940871468:web:7e7a7e0a09f9565beb4089'
+	apiKey: 'AIzaSyBZq2zgsLTLuEWmuiJo7y7xJY7IDbK8Yxk',
+	authDomain: 'todoaqui-be.firebaseapp.com',
+	databaseURL: 'https://todoaqui-be.firebaseio.com',
+	projectId: 'todoaqui-be',
+	storageBucket: 'todoaqui-be.appspot.com',
+	messagingSenderId: '1044525741253',
+	appId: '1:1044525741253:web:687a8458df415ae96cacac'
 };
