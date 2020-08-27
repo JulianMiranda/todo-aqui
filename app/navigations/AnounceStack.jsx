@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Anounces from '../screens/Anounces';
+import Anounces from '../screens/Anounces/Anounces';
+import AddAnounce from '../screens/Anounces/AddAnounce';
 
 const Stack = createStackNavigator();
 
@@ -10,7 +11,12 @@ export default function AnounceStack() {
 			<Stack.Screen
 				name="anounces"
 				component={Anounces}
-				options={{title: 'Anouncees'}}
+				options={{title: 'Anuncios'}}
+			/>
+			<Stack.Screen
+				name="add-anounce"
+				component={AddAnounce}
+				options={{title: 'Añadir Anuncio'}}
 			/>
 		</Stack.Navigator>
 	);
