@@ -6,7 +6,7 @@ import * as firebase from 'firebase';
 import Loading from '../../components/Loading';
 import InfoUser from '../../components/Account/InfoUser';
 import AccountOptions from '../../components/Account/AccountOptions';
-import {login} from '../../api/dataProvider';
+/* import {login} from '../../api/dataProvider'; */
 
 export default function UserLogged() {
 	const [userInfo, setUserInfo] = useState(null);

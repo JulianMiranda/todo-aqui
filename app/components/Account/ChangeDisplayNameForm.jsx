@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import * as firebase from 'firebase';
-import {Update} from '../../api/dataProvider';
+import {Update} from '../../api/dataProvidercpy';
 
 export default function ChangeDisplayNameForm(props) {
 	const {

@@ -3,22 +3,29 @@ import {StyleSheet, View, Text} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
-import {apiUrl} from '../../config/congig';
-
-import axios from 'axios';
-import {getHeaders} from '../../api/getHeaders';
+import {getList} from '../../api/dataProvider';
 
 export default function Anounces(props) {
 	const {navigation} = props;
 	const [user, setUser] = useState(null);
 	const [anounces, setAnounces] = useState([]);
 	const [totalAnounces, setTotalAnounces] = useState(0);
+	const [startAnounce, setStartAnounce] = useState(null);
+	const limit = 2;
 	const data = {
 		filter: {},
 		search: {},
 		fields: {},
-		docsPerPage: 2,
-		page: 0
+		docsPerPage: limit,
+		page: 0,
+		population: [
+			{
+				path: 'images',
+				fields: {
+					url: true
+				}
+			}
+		]
 	};
 
 	useEffect(() => {
@@ -28,36 +35,14 @@ export default function Anounces(props) {
 	}, []);
 
 	useEffect(() => {
-		getUsers();
+		getList('anounces', data).then((result) => {
+			setTotalAnounces(result.count);
+			setAnounces(result.data);
+			setStartAnounce(result.data[result.data.length - 1]);
+		});
 	}, []);
-
-	async function getUsers() {
-		try {
-			const body = {
-				filter: {},
-				search: {},
-				fields: {},
-				docsPerPage: 2,
-				page: 0
-			};
-			const headers = await getHeaders();
-			const config = {
-				method: 'post',
-				url: `${apiUrl}/users/getList`,
-				headers: headers.map,
-				data: JSON.stringify(body)
-			};
-			const {data} = await axios(config);
-
-			setTotalAnounces(data.count);
-			setAnounces(data.data);
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
-	console.log(totalAnounces);
-
+	console.log(anounces);
+	console.log(startAnounce);
 	return (
 		<View style={styles.viewBody}>
 			<Text>Anounces </Text>

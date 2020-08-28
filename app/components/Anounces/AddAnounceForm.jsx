@@ -5,7 +5,7 @@ import {map, size, filter} from 'lodash';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import {uploadImageStorage} from '../../utils/uploadImageFb';
-import {Create} from '../../api/dataProvider';
+import {Create} from '../../api/dataProvidercpy';
 
 const widthScreen = Dimensions.get('window').width;
 export default function AddRestaurantForm(props) {

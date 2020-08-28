@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import * as firebase from 'firebase';
 import {validateEmail} from '../../utils/validations';
 import Loading from '../Loading';
-import {login} from '../../api/dataProvider';
+/* import {login} from '../../api/dataProvider'; */
 
 export default function LoginForm(props) {
 	const {toastRef} = props;
