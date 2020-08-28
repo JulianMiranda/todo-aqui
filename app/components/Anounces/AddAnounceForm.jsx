@@ -5,6 +5,7 @@ import {map, size, filter} from 'lodash';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import {uploadImageStorage} from '../../utils/uploadImageFb';
+import {Create} from '../../api/dataProvider';
 
 const widthScreen = Dimensions.get('window').width;
 export default function AddRestaurantForm(props) {
@@ -23,6 +24,19 @@ export default function AddRestaurantForm(props) {
 			setIsLoading(true);
 			uploadImageStorage(imagesSelected, 'anounces')
 				.then((response) => {
+					const data = {
+						title: anounceName,
+						provider: '5ee0fc72dd979500172996d3',
+						category: '5ee77e3d7b62500017bd51b4',
+						images: response
+					};
+					Create('anounces', data)
+						.then((res) => {
+							return res;
+						})
+						.catch((err) => {
+							return err;
+						});
 					setIsLoading(false);
 					navigation.navigate('anounces');
 				})

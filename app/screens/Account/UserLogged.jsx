@@ -6,13 +6,54 @@ import * as firebase from 'firebase';
 import Loading from '../../components/Loading';
 import InfoUser from '../../components/Account/InfoUser';
 import AccountOptions from '../../components/Account/AccountOptions';
+import {login} from '../../api/dataProvider';
 
 export default function UserLogged() {
 	const [userInfo, setUserInfo] = useState(null);
+	const [userRole, setUserRole] = useState(null);
+	const [userMongo, setUserMongo] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [loadingText, setLoadingText] = useState('');
 	const [realoadUserInfo, setRealoadUserInfo] = useState(false);
 	const toastRef = useRef();
+
+	/* useEffect(() => {
+		(async () => {
+			const user = await firebase.auth().currentUser;
+			console.log(user);
+			user
+				.getIdTokenResult()
+				.then((result) => {
+					console.log(result.token);
+					login(result.token)
+						.then(() => console.log('logueado'))
+						.catch((err) => console.log(err));
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		})();
+		setRealoadUserInfo(false);
+	}, [realoadUserInfo]); */
+	useEffect(() => {
+		(async () => {
+			return new Promise((resolve, reject) => {
+				firebase.auth().onAuthStateChanged(async (user) => {
+					if (user) {
+						const {claims} = await user.getIdTokenResult();
+						setUserRole(claims.role);
+						setUserMongo(claims.mongoId);
+						/* console.log(claims); */
+
+						if (claims && claims.role) resolve(claims.role);
+						else reject();
+					} else {
+						reject();
+					}
+				});
+			});
+		})();
+	}, []);
 
 	useEffect(() => {
 		(async () => {
@@ -32,9 +73,9 @@ export default function UserLogged() {
 					setLoadingText={setLoadingText}
 				/>
 			)}
-
 			<AccountOptions
 				userInfo={userInfo}
+				userMongo={userMongo}
 				toastRef={toastRef}
 				setRealoadUserInfo={setRealoadUserInfo}
 			/>

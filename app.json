@@ -19,6 +19,7 @@
 			"supportsTablet": false
 		},
 		"android": {
+			"package": "com.wayutwo.todoaqui",
 			"permissions": [
 				"CAMERA_ROLL",
 				"READ_EXTERNAL_STORAGE",

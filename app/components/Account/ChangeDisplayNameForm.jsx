@@ -2,13 +2,19 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import * as firebase from 'firebase';
+import {Update} from '../../api/dataProvider';
 
 export default function ChangeDisplayNameForm(props) {
-	const {displayName, setShowModal, toastRef, setRealoadUserInfo} = props;
+	const {
+		displayName,
+		setShowModal,
+		userMongo,
+		toastRef,
+		setRealoadUserInfo
+	} = props;
 	const [newDisplayName, setNewDisplayName] = useState(null);
 	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
-
 	const onSubmit = () => {
 		setError(null);
 		if (!newDisplayName) {
@@ -24,6 +30,11 @@ export default function ChangeDisplayNameForm(props) {
 				.auth()
 				.currentUser.updateProfile(update)
 				.then(() => {
+					const data = {
+						id: userMongo,
+						query: newDisplayName
+					};
+					Update('users', data);
 					setIsLoading(false);
 					setRealoadUserInfo(true);
 					setShowModal(false);

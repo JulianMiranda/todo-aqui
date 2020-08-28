@@ -8,15 +8,17 @@ import ChangeEmailForm from './ChangeEmailForm';
 import ChangePasswordForm from './ChangePasswordForm';
 
 export default function AccountOptions(props) {
-	const {userInfo, toastRef, setRealoadUserInfo} = props;
+	const {userInfo, userMongo, toastRef, setRealoadUserInfo} = props;
 	const [showModal, setShowModal] = useState(false);
 	const [renderComponent, setRenderComponent] = useState(null);
+
 	const selectedComponent = (key) => {
 		switch (key) {
 			case 'displayName':
 				setRenderComponent(
 					<ChangeDisplayNameForm
 						displayName={userInfo.displayName}
+						userMongo={userMongo}
 						setShowModal={setShowModal}
 						toastRef={toastRef}
 						setRealoadUserInfo={setRealoadUserInfo}
@@ -28,6 +30,7 @@ export default function AccountOptions(props) {
 				setRenderComponent(
 					<ChangeEmailForm
 						email={userInfo.email}
+						userMongo={userMongo}
 						setShowModal={setShowModal}
 						toastRef={toastRef}
 						setRealoadUserInfo={setRealoadUserInfo}
@@ -51,7 +54,6 @@ export default function AccountOptions(props) {
 				setShowModal(false);
 				break;
 		}
-		console.log(key);
 	};
 	const menuOptions = generateOptions(selectedComponent);
 	return (

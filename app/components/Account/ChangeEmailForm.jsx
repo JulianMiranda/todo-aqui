@@ -4,9 +4,10 @@ import {Input, Button} from 'react-native-elements';
 import * as firebase from 'firebase';
 import {validateEmail} from '../../utils/validations';
 import {reauthenticate} from '../../utils/api';
+import {Update} from '../../api/dataProvider';
 
 export default function ChangeEmailForm(props) {
-	const {email, setShowModal, toastRef, setRealoadUserInfo} = props;
+	const {email, setShowModal, userMongo, toastRef, setRealoadUserInfo} = props;
 	const [formData, setFormData] = useState(defaultValue());
 	const [showPassword, setShowPassword] = useState(false);
 	const [errors, setErrors] = useState({});
@@ -39,6 +40,7 @@ export default function ChangeEmailForm(props) {
 						.currentUser.updateEmail(formData.email)
 						.then(() => {
 							setIsLoading(false);
+							Update('users', formData.email);
 							setRealoadUserInfo(true);
 							toastRef.current.show('Email actualizado correctamente');
 							setShowModal(false);
