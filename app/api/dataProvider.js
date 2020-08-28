@@ -96,4 +96,16 @@ const login = async (token) => {
 			return err;
 		});
 };
+
+/* async function getUsers() {
+	try {
+		const response = await axios.get(
+			`${apiUrl}/users/getOne/5f4860248e431e00172dd493`
+		);
+		console.log(response);
+	} catch (error) {
+		console.error(error);
+	}
+}
+ */
 export {getList, getOne, Create, Update, login};

@@ -3,7 +3,10 @@ import {StyleSheet, View, Text} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
-import {getList, getOne} from '../../api/dataProvider';
+import {apiUrl} from '../../config/congig';
+
+import axios from 'axios';
+import {getHeaders} from '../../api/getHeaders';
 
 export default function Anounces(props) {
 	const {navigation} = props;
@@ -18,81 +21,42 @@ export default function Anounces(props) {
 		page: 0
 	};
 
-	/* useEffect(() => {
-		(async () => {
-			const data = {
-				filter: {},
-				search: {},
-				fields: {},
-				docsPerPage: 2,
-				page: 0
-			};
-			const a = await getList('anounces', data);
-			console.log(a); */
-	/* getList('anounces', data)
-				.then((res) => {
-					console.log('Respuest de 2', res.data);
-					return res;
-				})
-				.catch((err) => {
-					return err;
-				}); */
-	/* setUserInfo(user); */
-	/* })(); */
-	/* setRealoadUserInfo(false); */
-	/* }, []);
-	 */
-	/* useEffect(() => {
-		(async () => { */
-	/* const data = {
-			filter: {},
-			search: {},
-			fields: {}
-		}; */
-	/* const data = {
-				id: '5f0345b0b8484f103c980910'
-			};
-
-			await getOne('anounces', data)
-				.then((res) => {
-					console.log('ENTER THEN', res);
-					return res;
-				})
-				.catch((err) => {
-					return err;
-				});
-		})(); */
-	/* console.log(a); */
-	/* }, []); */
-
 	useEffect(() => {
 		firebase.auth().onAuthStateChanged((userInfo) => {
 			setUser(userInfo);
 		});
 	}, []);
-	/* useEffect(() => {
-		getList('anounces', data).then((users) => console.log(users));
-	}, []); */
+
 	useEffect(() => {
-		(async () => {
-			await getList('anounces', data).then((users) => console.log(users));
-			/* setAnounces(Object.keys(a.data) || []); */
-		})();
+		getUsers();
 	}, []);
-	/* useEffect(() => {
-		(async () => {
-			const data = {
+
+	async function getUsers() {
+		try {
+			const body = {
 				filter: {},
 				search: {},
 				fields: {},
 				docsPerPage: 2,
 				page: 0
 			};
-			const a = await getList('anounces', data);
-			console.log(a);
-		})();
-		setAnounces(a);
-	}, []); */
+			const headers = await getHeaders();
+			const config = {
+				method: 'post',
+				url: `${apiUrl}/users/getList`,
+				headers: headers.map,
+				data: JSON.stringify(body)
+			};
+			const {data} = await axios(config);
+
+			setTotalAnounces(data.count);
+			setAnounces(data.data);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	console.log(totalAnounces);
 
 	return (
 		<View style={styles.viewBody}>
