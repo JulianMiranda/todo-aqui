@@ -1,28 +1,44 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {Icon} from 'react-native-elements';
+import {useFocusEffect} from '@react-navigation/native';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
 import {getList} from '../../api/dataProvider';
+import ListAnounces from '../../components/Anounces/ListAnounces';
 
 export default function Anounces(props) {
 	const {navigation} = props;
 	const [user, setUser] = useState(null);
 	const [anounces, setAnounces] = useState([]);
 	const [totalAnounces, setTotalAnounces] = useState(0);
-	const [startAnounce, setStartAnounce] = useState(null);
-	const limit = 2;
+	const [startAnounce, setStartAnounce] = useState(1);
+	const [isLoading, setIsLoading] = useState(false);
+	const limit = 9;
+
 	const data = {
 		filter: {},
 		search: {},
 		fields: {},
 		docsPerPage: limit,
-		page: 0,
+		page: startAnounce,
 		population: [
 			{
 				path: 'images',
 				fields: {
 					url: true
+				}
+			},
+			{
+				path: 'category',
+				fields: {
+					name: true
+				}
+			},
+			{
+				path: 'provider',
+				fields: {
+					name: true
 				}
 			}
 		]
@@ -38,14 +54,28 @@ export default function Anounces(props) {
 		getList('anounces', data).then((result) => {
 			setTotalAnounces(result.count);
 			setAnounces(result.data);
-			setStartAnounce(result.data[result.data.length - 1]);
+			setStartAnounce(2);
 		});
 	}, []);
-	console.log(anounces);
-	console.log(startAnounce);
+	const handleLoadMore = () => {
+		anounces.length < totalAnounces && setIsLoading(true);
+		getList('anounces', data).then((result) => {
+			if (result.data.length > 0) {
+				setStartAnounce(startAnounce + 1);
+			} else {
+				setIsLoading(false);
+			}
+			setAnounces([...anounces, ...result.data]);
+		});
+	};
+
 	return (
 		<View style={styles.viewBody}>
-			<Text>Anounces </Text>
+			<ListAnounces
+				anounces={anounces}
+				handleLoadMore={handleLoadMore}
+				isLoading={isLoading}
+			/>
 			{user && (
 				<Icon
 					reverse

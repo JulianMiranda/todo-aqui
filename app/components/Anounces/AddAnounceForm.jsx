@@ -5,7 +5,7 @@ import {map, size, filter} from 'lodash';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import {uploadImageStorage} from '../../utils/uploadImageFb';
-import {Create} from '../../api/dataProvidercpy';
+import {Create} from '../../api/dataProvider';
 
 const widthScreen = Dimensions.get('window').width;
 export default function AddRestaurantForm(props) {
@@ -24,12 +24,22 @@ export default function AddRestaurantForm(props) {
 			setIsLoading(true);
 			uploadImageStorage(imagesSelected, 'anounces')
 				.then((response) => {
+					console.log(response);
+					let object = {};
+					if (response.length > 0) {
+						object = response.map((url) => ({
+							url
+						}));
+					}
+
 					const data = {
 						title: anounceName,
+						description: anounceDescription,
 						provider: '5ee0fc72dd979500172996d3',
 						category: '5ee77e3d7b62500017bd51b4',
-						images: response
+						images: object
 					};
+
 					Create('anounces', data)
 						.then((res) => {
 							return res;
@@ -43,7 +53,7 @@ export default function AddRestaurantForm(props) {
 				.catch(() => {
 					setIsLoading(false);
 					toastRef.current.show(
-						'Error al subir el restaurante, intentelo más tarde'
+						'Error al subir el anuncio, intentelo más tarde'
 					);
 				});
 			/* uploadImageStorage()
