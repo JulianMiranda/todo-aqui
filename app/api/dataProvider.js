@@ -19,6 +19,21 @@ async function getList(resource, params) {
 		console.error(error);
 	}
 }
+async function getOne(resource, params) {
+	try {
+		const headers = await getHeaders();
+		const config = {
+			method: 'get',
+			url: `${apiUrl}/${resource}/getOne/${params}`,
+			headers: headers.map
+		};
+		const {data} = await axios(config);
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 async function Create(resource, params) {
 	try {
 		const body = params;
@@ -35,4 +50,4 @@ async function Create(resource, params) {
 		console.error(error);
 	}
 }
-export {getList, Create};
+export {getList, Create, getOne};

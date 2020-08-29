@@ -24,7 +24,6 @@ export default function AddRestaurantForm(props) {
 			setIsLoading(true);
 			uploadImageStorage(imagesSelected, 'anounces')
 				.then((response) => {
-					console.log(response);
 					let object = {};
 					if (response.length > 0) {
 						object = response.map((url) => ({

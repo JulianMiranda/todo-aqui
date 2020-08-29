@@ -49,14 +49,16 @@ export default function Anounces(props) {
 			setUser(userInfo);
 		});
 	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			getList('anounces', data).then((result) => {
+				setTotalAnounces(result.count);
+				setAnounces(result.data);
+				setStartAnounce(2);
+			});
+		}, [])
+	);
 
-	useEffect(() => {
-		getList('anounces', data).then((result) => {
-			setTotalAnounces(result.count);
-			setAnounces(result.data);
-			setStartAnounce(2);
-		});
-	}, []);
 	const handleLoadMore = () => {
 		anounces.length < totalAnounces && setIsLoading(true);
 		getList('anounces', data).then((result) => {

@@ -13,6 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function ListAnounces(props) {
 	const {anounces, handleLoadMore, isLoading} = props;
+	const navigation = useNavigation();
 
 	return (
 		<View>
@@ -20,7 +21,7 @@ export default function ListAnounces(props) {
 				<FlatList
 					data={anounces}
 					renderItem={(anounce) => (
-						<Anounce anounce={anounce} /* navigation={navigation} */ />
+						<Anounce anounce={anounce} navigation={navigation} />
 					)}
 					keyExtractor={(item, index) => index.toString()}
 					onEndReachedThreshold={0.5}
@@ -37,16 +38,15 @@ export default function ListAnounces(props) {
 	);
 }
 function Anounce(props) {
-	const {anounce} = props;
+	const {anounce, navigation} = props;
 	const {id, images, title, provider, description, category} = anounce.item;
 	const imageAnounce = images[0].url;
 	/* console.log(description); */
 	const goAnounce = () => {
-		console.log('Okk');
-		/* navigation.navigate("anounce", {
-          id,
-          name,
-        }); */
+		navigation.navigate('anounce', {
+			id,
+			title
+		});
 	};
 	return (
 		<TouchableOpacity onPress={goAnounce}>
