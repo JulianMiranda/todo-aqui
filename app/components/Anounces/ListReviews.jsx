@@ -68,7 +68,6 @@ export default function ListReviews(props) {
 }
 
 function Review(props) {
-	console.log(props);
 	const {review} = props;
 	const {rating} = props.review;
 

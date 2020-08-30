@@ -21,7 +21,6 @@ export default function AddReviewAnounce(props) {
 
 	useEffect(() => {
 		(async () => {
-			console.log('ejecutados el effect');
 			firebase.auth().onAuthStateChanged(async (user) => {
 				if (user) {
 					const {claims} = await user.getIdTokenResult();
