@@ -4,7 +4,7 @@ import {Icon} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
-import {getList} from '../../api/dataProvider';
+import {getList, Login} from '../../api/dataProvider';
 import ListAnounces from '../../components/Anounces/ListAnounces';
 
 export default function Anounces(props) {
@@ -49,6 +49,12 @@ export default function Anounces(props) {
 			setUser(userInfo);
 		});
 	}, []);
+
+	/* useEffect(() => {
+		const a = Login();
+		console.log(a);
+	}, []); */
+
 	useFocusEffect(
 		useCallback(() => {
 			getList('anounces', data).then((result) => {

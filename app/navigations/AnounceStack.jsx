@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Anounces from '../screens/Anounces/Anounces';
 import Anounce from '../screens/Anounces/Anounce';
 import AddAnounce from '../screens/Anounces/AddAnounce';
+import AddReviewAnounce from '../screens/Anounces/AddRevievAnounce';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,11 @@ export default function AnounceStack() {
 				options={{title: 'Añadir Anuncio'}}
 			/>
 			<Stack.Screen name="anounce" component={Anounce} />
+			<Stack.Screen
+				name="add-review-anounce"
+				component={AddReviewAnounce}
+				options={{title: 'Nuevo Comentario'}}
+			/>
 		</Stack.Navigator>
 	);
 }

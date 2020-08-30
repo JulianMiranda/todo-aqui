@@ -1,1 +1,1 @@
-export const apiUrl = 'https://todo-aqui.herokuapp.com/api';
+export const apiUrl = 'https://todo-aqui-dev.herokuapp.com/api';

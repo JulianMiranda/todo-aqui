@@ -5,6 +5,7 @@ import {map} from 'lodash';
 import {getOne} from '../../api/dataProvider';
 import Loading from '../../components/Loading';
 import Carousel from '../../components/Carousel';
+import ListReviews from '../../components/Anounces/ListReviews';
 
 const screensWidth = Dimensions.get('window').width;
 
@@ -38,6 +39,11 @@ export default function Anounce(props) {
 				title={anounce.title}
 				provider={anounce.provider.name}
 				category={anounce.category.name}
+			/>
+			<ListReviews
+				navigation={navigation}
+				idAnounce={id}
+				setRating={setRating}
 			/>
 		</ScrollView>
 	);

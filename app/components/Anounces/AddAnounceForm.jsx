@@ -35,7 +35,7 @@ export default function AddRestaurantForm(props) {
 						title: anounceName,
 						description: anounceDescription,
 						provider: '5ee0fc72dd979500172996d3',
-						category: '5ee77e3d7b62500017bd51b4',
+						category: '5f4ae64734bd222b049cda69',
 						images: object
 					};
 

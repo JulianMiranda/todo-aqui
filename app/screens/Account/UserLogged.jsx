@@ -6,7 +6,6 @@ import * as firebase from 'firebase';
 import Loading from '../../components/Loading';
 import InfoUser from '../../components/Account/InfoUser';
 import AccountOptions from '../../components/Account/AccountOptions';
-/* import {login} from '../../api/dataProvider'; */
 
 export default function UserLogged() {
 	const [userInfo, setUserInfo] = useState(null);
@@ -35,7 +34,7 @@ export default function UserLogged() {
 		})();
 		setRealoadUserInfo(false);
 	}, [realoadUserInfo]); */
-	useEffect(() => {
+	/* useEffect(() => {
 		(async () => {
 			return new Promise((resolve, reject) => {
 				firebase.auth().onAuthStateChanged(async (user) => {
@@ -43,7 +42,7 @@ export default function UserLogged() {
 						const {claims} = await user.getIdTokenResult();
 						setUserRole(claims.role);
 						setUserMongo(claims.mongoId);
-						/* console.log(claims); */
+						console.log(claims);
 
 						if (claims && claims.role) resolve(claims.role);
 						else reject();
@@ -53,12 +52,14 @@ export default function UserLogged() {
 				});
 			});
 		})();
-	}, []);
+	}, []); */
 
 	useEffect(() => {
 		(async () => {
 			const user = await firebase.auth().currentUser;
 			setUserInfo(user);
+			/* const a = await Login();
+			console.log(a); */
 		})();
 		setRealoadUserInfo(false);
 	}, [realoadUserInfo]);
