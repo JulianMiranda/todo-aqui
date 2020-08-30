@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {StyleSheet, ScrollView, View, Text, Dimensions} from 'react-native';
 import {Rating, ListItem, Icon} from 'react-native-elements';
+import {useFocusEffect} from '@react-navigation/native';
 import {map} from 'lodash';
 import {getOne} from '../../api/dataProvider';
 import Loading from '../../components/Loading';
@@ -16,12 +17,15 @@ export default function Anounce(props) {
 	const [rating, setRating] = useState(0);
 
 	navigation.setOptions({title: title});
-	useEffect(() => {
-		getOne('anounces', id).then((anounce) => {
-			setAnounce(anounce);
-			if (anounce.ratingAvg) setRating(anounce.ratingAvg);
-		});
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			getOne('anounces', id).then((anounce) => {
+				setAnounce(anounce);
+				if (anounce.ratingAvg) setRating(anounce.ratingAvg);
+			});
+		}, [])
+	);
+
 	if (!anounce) return <Loading isVisible={true} text="Cargando" />;
 	return (
 		<ScrollView vertical style={styles.viewBody}>
@@ -40,11 +44,7 @@ export default function Anounce(props) {
 				provider={anounce.provider.name}
 				category={anounce.category.name}
 			/>
-			<ListReviews
-				navigation={navigation}
-				idAnounce={id}
-				setRating={setRating}
-			/>
+			<ListReviews navigation={navigation} idAnounce={id} />
 		</ScrollView>
 	);
 }

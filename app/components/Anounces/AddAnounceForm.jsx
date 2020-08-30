@@ -5,6 +5,7 @@ import {map, size, filter} from 'lodash';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import {uploadImageStorage} from '../../utils/uploadImageFb';
+
 import {Create} from '../../api/dataProvider';
 
 const widthScreen = Dimensions.get('window').width;
@@ -22,8 +23,10 @@ export default function AddRestaurantForm(props) {
 			toastRef.current.show('El restaurante tiene que tener almenos una foto');
 		} else {
 			setIsLoading(true);
+
 			uploadImageStorage(imagesSelected, 'anounces')
 				.then((response) => {
+					console.log(response);
 					let object = {};
 					if (response.length > 0) {
 						object = response.map((url) => ({

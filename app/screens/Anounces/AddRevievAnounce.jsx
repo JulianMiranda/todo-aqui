@@ -52,7 +52,7 @@ export default function AddReviewAnounce(props) {
 					return err;
 				});
 			setIsLoading(false);
-			navigation.navigate('anounces');
+			navigation.goBack();
 			/* db.collection('reviews')
 				.add(paylod)
 				.then(() => {
