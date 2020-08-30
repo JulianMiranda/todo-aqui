@@ -41,7 +41,6 @@ function Anounce(props) {
 	const {anounce, navigation} = props;
 	const {id, images, title, provider, description, category} = anounce.item;
 	const imageAnounce = images[0].url;
-	/* console.log(description); */
 	const goAnounce = () => {
 		navigation.navigate('anounce', {
 			id,

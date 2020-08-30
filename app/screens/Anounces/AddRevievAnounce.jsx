@@ -24,7 +24,7 @@ export default function AddReviewAnounce(props) {
 			firebase.auth().onAuthStateChanged(async (user) => {
 				if (user) {
 					const {claims} = await user.getIdTokenResult();
-					/* setUserRole(claims.role); */
+
 					setUserMongo(claims.mongoId);
 				} else {
 					console.log('Error al conectarse a Firebase');

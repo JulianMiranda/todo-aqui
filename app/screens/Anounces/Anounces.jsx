@@ -50,11 +50,6 @@ export default function Anounces(props) {
 		});
 	}, []);
 
-	/* useEffect(() => {
-		const a = Login();
-		console.log(a);
-	}, []); */
-
 	useFocusEffect(
 		useCallback(() => {
 			getList('anounces', data).then((result) => {

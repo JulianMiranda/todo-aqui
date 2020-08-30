@@ -12,7 +12,6 @@ async function getList(resource, params) {
 			headers: headers.map,
 			data: JSON.stringify(body)
 		};
-		/* console.log(config); */
 		const {data} = await axios(config);
 		return data;
 	} catch (error) {
@@ -91,7 +90,6 @@ async function Login() {
 			headers: headers.map
 		};
 		const data = await axios(config);
-		/* console.log(data); */
 		return data;
 	} catch (error) {
 		console.error(error);

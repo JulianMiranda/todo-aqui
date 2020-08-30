@@ -16,50 +16,10 @@ export default function UserLogged() {
 	const [realoadUserInfo, setRealoadUserInfo] = useState(false);
 	const toastRef = useRef();
 
-	/* useEffect(() => {
-		(async () => {
-			const user = await firebase.auth().currentUser;
-			console.log(user);
-			user
-				.getIdTokenResult()
-				.then((result) => {
-					console.log(result.token);
-					login(result.token)
-						.then(() => console.log('logueado'))
-						.catch((err) => console.log(err));
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		})();
-		setRealoadUserInfo(false);
-	}, [realoadUserInfo]); */
-	/* useEffect(() => {
-		(async () => {
-			return new Promise((resolve, reject) => {
-				firebase.auth().onAuthStateChanged(async (user) => {
-					if (user) {
-						const {claims} = await user.getIdTokenResult();
-						setUserRole(claims.role);
-						setUserMongo(claims.mongoId);
-						console.log(claims);
-
-						if (claims && claims.role) resolve(claims.role);
-						else reject();
-					} else {
-						reject();
-					}
-				});
-			});
-		})();
-	}, []); */
-
 	useEffect(() => {
 		(async () => {
 			const user = await firebase.auth().currentUser;
 			setUserInfo(user);
-			/* const a = await Login();
-			console.log(a); */
 		})();
 		setRealoadUserInfo(false);
 	}, [realoadUserInfo]);

@@ -15,19 +15,17 @@ export default function ListReviews(props) {
 	const [userLogged, setUserLogged] = useState(false);
 	const [reviews, setReviews] = useState([]);
 	const [ratingAvg, setRatingAvg] = useState(0);
-	/* console.log(userLogged); */
 	firebase.auth().onAuthStateChanged((user) => {
 		user ? setUserLogged(true) : setUserLogged(false);
 	});
 
 	useEffect(() => {
-		console.log('Effect');
 		const id = '';
 		getOne('anounces', idAnounce).then((result) => {
 			setReviews(result.comments);
 		});
 	}, []);
-	console.log(reviews);
+
 	return (
 		<View>
 			{userLogged ? (

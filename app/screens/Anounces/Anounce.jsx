@@ -32,7 +32,6 @@ export default function Anounce(props) {
 			firebase.auth().onAuthStateChanged(async (user) => {
 				if (user) {
 					const {claims} = await user.getIdTokenResult();
-					/* setUserRole(claims.role); */
 					setUserMongo(claims.mongoId);
 				} else {
 					console.log('Error al conectarse a Firebase');
@@ -52,7 +51,7 @@ export default function Anounce(props) {
 	useEffect(() => {
 		if (userLogged && anounce) {
 			getOne('users', userMongo).then((user) => {
-				const preferences = user.preferences;
+				const preferences = user.preferences.map((preference) => preference.id);
 				const inFav = preferences.filter((pref) => pref === anounce.id);
 				if (inFav.length === 1) {
 					setIsPreference(true);
@@ -68,13 +67,12 @@ export default function Anounce(props) {
 			);
 		} else {
 			const payload = {
-				preferences: anounce.id
+				preferences: [anounce.id]
 			};
 			Update('users', payload, userMongo)
 				.then((res) => {
 					setIsPreference(true);
 					toastRef.current.show('Anuncio añadido a favoritos');
-
 					return res;
 				})
 				.catch((err) => {
@@ -87,7 +85,7 @@ export default function Anounce(props) {
 
 	const removeFavorite = () => {
 		const payload = {
-			preferences: ''
+			delete_preferences: [anounce.id]
 		};
 		Update('users', payload, userMongo)
 			.then((res) => {
@@ -109,7 +107,7 @@ export default function Anounce(props) {
 					type="material-community"
 					name={isPreference ? 'heart' : 'heart-outline'}
 					onPress={isPreference ? removeFavorite : addFavorite}
-					color={isPreference ? '#f00' : '#000'}
+					color={isPreference ? '#00a680' : '#00a680'}
 					size={35}
 					underlayColor="transparent"
 				/>

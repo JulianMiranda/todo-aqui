@@ -26,7 +26,6 @@ export default function AddRestaurantForm(props) {
 
 			uploadImageStorage(imagesSelected, 'anounces')
 				.then((response) => {
-					console.log(response);
 					let object = {};
 					if (response.length > 0) {
 						object = response.map((url) => ({
@@ -58,41 +57,6 @@ export default function AddRestaurantForm(props) {
 						'Error al subir el anuncio, intentelo más tarde'
 					);
 				});
-			/* uploadImageStorage()
-				.then((response) => {
-					console.log(response);
-				})
-				.catch(() => {
-					setIsLoading(false);
-					toastRef.current.show(
-						'Error al subir el restaurante, intentelo más tarde'
-					);
-				}); */
-			/* uploadImageStorage().then((response) => {
-            db.collection("restaurants")
-              .add({
-                name: restaurantName,
-                address: restaurantAddress,
-                description: restaurantDescription,
-                location: locationRestaurant,
-                images: response,
-                rating: 0,
-                ratingTotal: 0,
-                quantityVoting: 0,
-                createAt: new Date(),
-                createBy: firebase.auth().currentUser.uid,
-              })
-              .then(() => {
-                setIsLoading(false);
-                navigation.navigate("restaurants");
-              })
-              .catch(() => {
-                setIsLoading(false);
-                toastRef.current.show(
-                  "Error al subir el restaurante, intentelo más tarde"
-                );
-              });
-          }); */
 		}
 	};
 

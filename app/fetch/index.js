@@ -10,7 +10,7 @@ export async function Login() {
 			headers: headers.map
 		};
 		const data = await axios(config);
-		console.log(data);
+
 		return data;
 	} catch (error) {
 		console.error(error);
