@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {StyleSheet, ScrollView, View, Text, Dimensions} from 'react-native';
-import {Rating, ListItem, Icon} from 'react-native-elements';
+import {Rating, ListItem, Button, Icon} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {map} from 'lodash';
 import {getOne} from '../../api/dataProvider';
@@ -82,7 +82,6 @@ export default function Anounce(props) {
 				});
 		}
 	};
-
 	const removeFavorite = () => {
 		const payload = {
 			delete_preferences: [anounce.id]
@@ -122,11 +121,24 @@ export default function Anounce(props) {
 				description={anounce.description}
 				rating={rating}
 			/>
+			<Button
+				title="Contactar"
+				containerStyle={styles.btnContainer}
+				buttonStyle={styles.btn}
+				onPress={() =>
+					navigation.navigate('anounces', {
+						screen: 'anounce',
+						params: {id, title}
+					})
+				}
+				/* loading={isLoading} */
+			/>
 			<AnounceInfo
 				title={anounce.title}
 				provider={anounce.provider.name}
 				category={anounce.category.name}
 			/>
+
 			<ListReviews navigation={navigation} idAnounce={id} />
 			<Toast ref={toastRef} position="center" opacity={0.9} />
 		</ScrollView>
@@ -226,5 +238,13 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: 100,
 		padding: 5,
 		paddingLeft: 15
+	},
+	btnContainer: {
+		marginLeft: '25%',
+		marginTop: 20,
+		width: '50%'
+	},
+	btn: {
+		backgroundColor: '#00a680'
 	}
 });
