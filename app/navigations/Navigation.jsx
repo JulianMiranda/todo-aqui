@@ -5,6 +5,7 @@ import {Icon} from 'react-native-elements';
 import AnounceStack from './AnounceStack';
 import FavoritesStack from './FavoritesStack';
 import SearchStack from './SearchStack';
+import OpportunityStack from './OpportunityStack';
 import AccountStack from './AccountStack';
 
 const Tab = createBottomTabNavigator();
@@ -33,6 +34,12 @@ export default function Navigation() {
 					options={{title: 'Favoritos'}}
 				/>
 				<Tab.Screen
+					name="opportunities"
+					component={OpportunityStack}
+					options={{title: 'Negociaciones'}}
+				/>
+
+				<Tab.Screen
 					name="search"
 					component={SearchStack}
 					options={{title: 'Search'}}
@@ -56,6 +63,9 @@ function screenOptions(route, color) {
 			break;
 		case 'favorites':
 			iconName = 'heart-outline';
+			break;
+		case 'opportunities':
+			iconName = 'star-outline';
 			break;
 		case 'search':
 			iconName = 'magnify';

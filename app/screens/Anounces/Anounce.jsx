@@ -126,8 +126,8 @@ export default function Anounce(props) {
 				containerStyle={styles.btnContainer}
 				buttonStyle={styles.btn}
 				onPress={() =>
-					navigation.navigate('anounces', {
-						screen: 'anounce',
+					navigation.navigate('opportunities', {
+						screen: 'add-opportunity',
 						params: {id, title}
 					})
 				}
