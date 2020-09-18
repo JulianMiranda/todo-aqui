@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Opportunity from '../screens/Opportunities/Opportunity';
+import Opportunities from '../screens/Opportunities/Opportunities';
 import AddOpportunity from '../screens/Opportunities/AddOpportunity';
 
 const Stack = createStackNavigator();
@@ -11,8 +12,13 @@ export default function OpportunityStack(props) {
 		<Stack.Navigator>
 			<Stack.Screen
 				name="opportunities"
+				component={Opportunities}
+				options={{title: 'Mis Negociaciones'}}
+			/>
+			<Stack.Screen
+				name="opportunity"
 				component={Opportunity}
-				options={{title: 'Oportunidades'}}
+				options={{title: 'Oportunidad'}}
 			/>
 			<Stack.Screen
 				name="add-opportunity"

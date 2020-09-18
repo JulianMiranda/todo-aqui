@@ -5,7 +5,8 @@ import Loading from '../../components/Loading';
 import AddOpportunityForm from '../../components/Opportunities/AddOpportunityForm';
 
 export default function AddOpportunity(props) {
-	const {navigation} = props;
+	const {navigation, route} = props;
+	const {id, title, provider, userMongo} = route.params;
 	const [isLoading, setIsLoading] = useState(false);
 	const toastRef = useRef();
 
@@ -15,6 +16,10 @@ export default function AddOpportunity(props) {
 				toastRef={toastRef}
 				setIsLoading={setIsLoading}
 				navigation={navigation}
+				idAnounce={id}
+				title={title}
+				provider={provider}
+				userMongo={userMongo}
 			/>
 			<Toast ref={toastRef} position="center" opacity={0.9} />
 			<Loading isVisible={isLoading} text="Creando oportunidad" />

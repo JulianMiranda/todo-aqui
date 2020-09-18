@@ -17,6 +17,7 @@ export default function Anounce(props) {
 	const {navigation, route} = props;
 	const {id, title} = route.params;
 	const [anounce, setAnounce] = useState(null);
+	const [provider, setProvider] = useState(null);
 	const [rating, setRating] = useState(0);
 	const [isPreference, setIsPreference] = useState(false);
 	const [userLogged, setUserLogged] = useState(false);
@@ -44,6 +45,7 @@ export default function Anounce(props) {
 		useCallback(() => {
 			getOne('anounces', id).then((anounce) => {
 				setAnounce(anounce);
+				if (anounce.provider.id) setProvider(anounce.provider.id);
 				if (anounce.ratingAvg) setRating(anounce.ratingAvg);
 			});
 		}, [])
@@ -128,7 +130,7 @@ export default function Anounce(props) {
 				onPress={() =>
 					navigation.navigate('opportunities', {
 						screen: 'add-opportunity',
-						params: {id, title}
+						params: {id, title, provider, userMongo}
 					})
 				}
 				/* loading={isLoading} */

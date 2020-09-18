@@ -8,7 +8,7 @@ export default function Opportunity(props) {
 	const {navigation, route} = props;
 	const {id, title} = route.params;
 	const [userMongo, setUserMongo] = useState(null);
-	console.log(id, 'id anuncio');
+
 	useEffect(() => {
 		(async () => {
 			firebase.auth().onAuthStateChanged(async (user) => {
@@ -21,7 +21,7 @@ export default function Opportunity(props) {
 			});
 		})();
 	}, []);
-	console.log(userMongo);
+
 	return (
 		<View>
 			<Text>

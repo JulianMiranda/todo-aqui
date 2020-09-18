@@ -14,17 +14,22 @@ import {Create} from '../../api/dataProvider';
 
 const widthScreen = Dimensions.get('window').width;
 export default function AddOpportunityForm(props) {
-	const {toastRef, setIsLoading, navigation} = props;
+	const {
+		toastRef,
+		idAnounce,
+		title,
+		provider,
+		userMongo,
+		setIsLoading,
+		navigation
+	} = props;
 	/* const [opportunityName, setOpportunityName] = useState(''); */
 	const [opportunityDescription, setOpportunityDescription] = useState('');
 	const [opportunityCategory, setOpportunityCategory] = useState('');
 	const [imagesSelected, setImagesSelected] = useState([]);
-
 	const [restaurantAddress, setRestaurantAddress] = useState('');
 	const [isVisibleMap, setIsVisibleMap] = useState(false);
 	const [locationRestaurant, setLocationRestaurant] = useState(null);
-	console.log(locationRestaurant, 'locationRestaurant');
-	console.log(restaurantAddress, 'restaurantAddress');
 
 	const addOpportunity = () => {
 		if (!opportunityDescription || !restaurantAddress || !opportunityCategory) {
@@ -45,11 +50,15 @@ export default function AddOpportunityForm(props) {
 
 					const data = {
 						state: 'OPP',
-						title: 'Prueba desde app',
+						title: title,
 						description: opportunityDescription,
-						anounce: '5f4b042b9800470017cfabc3',
-						provider: '5ee0fc72dd979500172996d3',
-						coordinates: locationRestaurant,
+						user: userMongo,
+						anounce: idAnounce,
+						provider: provider,
+						coordinates: [
+							locationRestaurant.latitude,
+							locationRestaurant.longitude
+						],
 						images: object
 					};
 
@@ -61,7 +70,7 @@ export default function AddOpportunityForm(props) {
 							return err;
 						});
 					setIsLoading(false);
-					navigation.navigate('opportunities');
+					navigation.navigate('anounces');
 				})
 				.catch(() => {
 					setIsLoading(false);
