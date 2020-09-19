@@ -6,18 +6,19 @@ import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
 import {getList, Login} from '../../api/dataProvider';
 import ListOpportunities from '../../components/Opportunities/ListOpportunities';
+import * as SecureStore from 'expo-secure-store';
 
 export default function Opportunities(props) {
 	const {navigation} = props;
-	const [userMongo, setUserMongo] = useState(null);
+	const [userId, setUserId] = useState(null);
 	const [opportunities, setOpportunities] = useState([]);
 	const [totalOpportunities, setTotalOpportunities] = useState(0);
 	const [startOpportunity, setStartOpportunity] = useState(1);
 	const [isLoading, setIsLoading] = useState(false);
 	const limit = 9;
-
+	SecureStore.getItemAsync('userId').then((result) => setUserId(result));
 	const data = {
-		filter: {user: ['=', userMongo]},
+		filter: {user: ['=', userId]},
 		search: {},
 		fields: {},
 		docsPerPage: limit,
@@ -32,7 +33,8 @@ export default function Opportunities(props) {
 			{
 				path: 'anounce',
 				fields: {
-					title: true
+					title: true,
+					images: true
 				}
 			},
 			{
@@ -43,31 +45,17 @@ export default function Opportunities(props) {
 			}
 		]
 	};
-
-	useEffect(() => {
-		(async () => {
-			firebase.auth().onAuthStateChanged(async (user) => {
-				if (user) {
-					const {claims} = await user.getIdTokenResult();
-					setUserMongo(claims.mongoId);
-				} else {
-					console.log('Error al conectarse a Firebase');
-				}
-			});
-		})();
-	}, []);
-
 	useFocusEffect(
 		useCallback(() => {
 			{
-				userMongo &&
+				userId &&
 					getList('opportunities', data).then((result) => {
 						setTotalOpportunities(result.count);
 						setOpportunities(result.data);
 						setStartOpportunity(2);
 					});
 			}
-		}, [userMongo])
+		}, [userId])
 	);
 
 	const handleLoadMore = () => {

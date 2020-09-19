@@ -13,6 +13,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import Toast from 'react-native-easy-toast';
 import Loading from '../components/Loading';
 import {Update, getOne} from '../api/dataProvider';
+import * as SecureStore from 'expo-secure-store';
 
 import {firebaseApp} from '../utils/firebase';
 import firebase from 'firebase';
@@ -21,40 +22,26 @@ const db = firebase.firestore(firebaseApp);
 
 export default function Favorites(props) {
 	const {navigation} = props;
-	const [restaurants, setRestaurants] = useState(null);
 	const [anounces, setAnounces] = useState(null);
 	const [userLogged, setUserLogged] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [reloadData, setReloadData] = useState(false);
-	const [userMongo, setUserMongo] = useState(null);
+	const [userId, setUserId] = useState(null);
 	const toastRef = useRef();
 
 	firebase.auth().onAuthStateChanged((user) => {
 		user ? setUserLogged(true) : setUserLogged(false);
 	});
-
-	useEffect(() => {
-		(async () => {
-			firebase.auth().onAuthStateChanged(async (user) => {
-				if (user) {
-					const {claims} = await user.getIdTokenResult();
-					setUserMongo(claims.mongoId);
-				} else {
-					console.log('Error al conectarse a Firebase');
-				}
-			});
-		})();
-	}, []);
-
+	SecureStore.getItemAsync('userId').then((result) => setUserId(result));
 	useFocusEffect(
 		useCallback(() => {
-			if (userLogged && userMongo) {
-				getOne('users', userMongo).then((user) => {
+			if (userLogged && userId) {
+				getOne('users', userId).then((user) => {
 					setAnounces(user.preferences);
 				});
 			}
 			setReloadData(false);
-		}, [userLogged, userMongo, reloadData])
+		}, [userLogged, userId, reloadData])
 	);
 
 	if (!userLogged) {
@@ -72,7 +59,7 @@ export default function Favorites(props) {
 					data={anounces}
 					renderItem={(anounce) => (
 						<Anounce
-							userMongo={userMongo}
+							userId={userId}
 							anounce={anounce}
 							setIsLoading={setIsLoading}
 							toastRef={toastRef}
@@ -127,7 +114,7 @@ function UserNoLogged(props) {
 function Anounce(props) {
 	const {
 		anounce,
-		userMongo,
+		userId,
 		setIsLoading,
 		toastRef,
 		setReloadData,
@@ -158,7 +145,7 @@ function Anounce(props) {
 		const paylod = {
 			delete_preferences: id
 		};
-		Update('users', paylod, userMongo)
+		Update('users', paylod, userId)
 			.then((res) => {
 				setIsLoading(false);
 				setReloadData(true);

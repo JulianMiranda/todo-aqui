@@ -6,7 +6,7 @@ import AddOpportunityForm from '../../components/Opportunities/AddOpportunityFor
 
 export default function AddOpportunity(props) {
 	const {navigation, route} = props;
-	const {id, title, provider, userMongo} = route.params;
+	const {id, title, provider, userId} = route.params;
 	const [isLoading, setIsLoading] = useState(false);
 	const toastRef = useRef();
 
@@ -19,10 +19,13 @@ export default function AddOpportunity(props) {
 				idAnounce={id}
 				title={title}
 				provider={provider}
-				userMongo={userMongo}
+				userId={userId}
 			/>
 			<Toast ref={toastRef} position="center" opacity={0.9} />
-			<Loading isVisible={isLoading} text="Creando oportunidad" />
+			<Loading
+				isVisible={isLoading}
+				text="Enviando requerimientos al proveedor"
+			/>
 		</View>
 	);
 }

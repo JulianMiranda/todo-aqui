@@ -19,7 +19,7 @@ export default function AddOpportunityForm(props) {
 		idAnounce,
 		title,
 		provider,
-		userMongo,
+		userId,
 		setIsLoading,
 		navigation
 	} = props;
@@ -52,7 +52,7 @@ export default function AddOpportunityForm(props) {
 						state: 'OPP',
 						title: title,
 						description: opportunityDescription,
-						user: userMongo,
+						user: userId,
 						anounce: idAnounce,
 						provider: provider,
 						coordinates: [
@@ -70,7 +70,7 @@ export default function AddOpportunityForm(props) {
 							return err;
 						});
 					setIsLoading(false);
-					navigation.navigate('anounces');
+					navigation.goBack();
 				})
 				.catch(() => {
 					setIsLoading(false);

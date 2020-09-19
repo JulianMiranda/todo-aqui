@@ -39,9 +39,16 @@ export default function ListOpportunities(props) {
 }
 function Opportunity(props) {
 	const {opportunity, navigation} = props;
-
-	const {id, images, title, anounce, description} = opportunity.item;
+	const {id, images, title, anounce, description, state} = opportunity.item;
 	const imageOpportunity = images[0].url;
+	const estado = {};
+	if (state === 'OPP') {
+		estado.state = 'Interesado';
+		estado.color = '#DDE705';
+	} else if (state === 'QUOT') {
+		estado.state = 'Negociando';
+		estado.color = 'green';
+	}
 
 	const goOpportunity = () => {
 		navigation.navigate('opportunity', {
@@ -65,8 +72,15 @@ function Opportunity(props) {
 					/>
 				</View>
 				<View>
+					<Text
+						style={{
+							color: estado.color,
+							fontSize: 25
+						}}
+					>
+						{estado.state}
+					</Text>
 					<Text style={styles.opportunityName}>{title}</Text>
-					<Text style={styles.opportunityCategory}>{anounce.title}</Text>
 					<Text style={styles.opportunityDescription}>
 						{description.substr(0, 60)}...
 					</Text>
@@ -101,14 +115,14 @@ const styles = StyleSheet.create({
 	},
 	viewOpportunity: {
 		flexDirection: 'row',
-		margin: 10
+		margin: 30
 	},
 	viewOpportunityImage: {
-		marginRight: 15
+		marginRight: 20
 	},
 	imageRestaurant: {
-		width: 80,
-		height: 80
+		width: 100,
+		height: 100
 	},
 	opportunityName: {
 		fontWeight: 'bold'

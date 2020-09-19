@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
 		marginRight: 15
 	},
 	imageRestaurant: {
-		width: 80,
-		height: 80
+		width: 120,
+		height: 120
 	},
 	anounceName: {
 		fontWeight: 'bold'

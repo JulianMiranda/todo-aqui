@@ -3,24 +3,13 @@ import {StyleSheet, View, Text, FlatList, Image} from 'react-native';
 import {SearchBar, ListItem, Icon} from 'react-native-elements';
 import {getList} from '../../api/dataProvider';
 import firebase from 'firebase';
+import * as SecureStore from 'expo-secure-store';
 
 export default function Opportunity(props) {
 	const {navigation, route} = props;
 	const {id, title} = route.params;
-	const [userMongo, setUserMongo] = useState(null);
-
-	useEffect(() => {
-		(async () => {
-			firebase.auth().onAuthStateChanged(async (user) => {
-				if (user) {
-					const {claims} = await user.getIdTokenResult();
-					setUserMongo(claims.mongoId);
-				} else {
-					console.log('Error al conectarse a Firebase');
-				}
-			});
-		})();
-	}, []);
+	const [userId, setUserId] = useState(null);
+	SecureStore.getItemAsync('userId').then((result) => setUserId(result));
 
 	return (
 		<View>

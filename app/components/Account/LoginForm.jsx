@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import * as firebase from 'firebase';
 import {validateEmail} from '../../utils/validations';
 import Loading from '../Loading';
-/* import {login} from '../../api/dataProvider'; */
+import {Login} from '../../api/dataProvider';
 
 export default function LoginForm(props) {
 	const {toastRef} = props;
@@ -29,15 +29,17 @@ export default function LoginForm(props) {
 				.auth()
 				.signInWithEmailAndPassword(formData.email, formData.password)
 				.then(() => {
-					setLoading(false);
-					/* login()
+					Login()
 						.then((res) => {
-							console.log('ENTER THEN', res);
+							console.log('ENTER THEN', res.data.id);
+							localStorage.setItem('userId', JSON.stringify(res.data.id));
 							return res;
 						})
 						.catch((err) => {
 							return err;
-						}); */
+						});
+					setLoading(false);
+
 					navigation.navigate('account');
 				})
 				.catch(() => {

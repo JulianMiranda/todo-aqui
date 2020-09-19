@@ -4,34 +4,20 @@ import {AirbnbRating, Button, Input} from 'react-native-elements';
 import Toast from 'react-native-easy-toast';
 import Loading from '../../components/Loading';
 import {Update} from '../../api/dataProvider';
-
-import {firebaseApp} from '../../utils/firebase';
-import firebase from 'firebase/app';
+import * as SecureStore from 'expo-secure-store';
 
 export default function AddReviewAnounce(props) {
 	const {navigation, route} = props;
 	const {idAnounce} = route.params;
 	const [userRole, setUserRole] = useState(null);
-	const [userMongo, setUserMongo] = useState(null);
+	const [userId, setUserId] = useState(null);
 
 	const [rating, setRating] = useState(null);
 	const [comments, setComments] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const toastRef = useRef();
 
-	useEffect(() => {
-		(async () => {
-			firebase.auth().onAuthStateChanged(async (user) => {
-				if (user) {
-					const {claims} = await user.getIdTokenResult();
-
-					setUserMongo(claims.mongoId);
-				} else {
-					console.log('Error al conectarse a Firebase');
-				}
-			});
-		})();
-	}, []);
+	SecureStore.getItemAsync('userId').then((result) => setUserId(result));
 
 	const addRevew = async () => {
 		if (!rating) {

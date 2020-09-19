@@ -9,6 +9,7 @@ import Loading from '../../components/Loading';
 import Carousel from '../../components/Carousel';
 import ListReviews from '../../components/Anounces/ListReviews';
 import {Update} from '../../api/dataProvider';
+import * as SecureStore from 'expo-secure-store';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
 const screensWidth = Dimensions.get('window').width;
@@ -21,25 +22,15 @@ export default function Anounce(props) {
 	const [rating, setRating] = useState(0);
 	const [isPreference, setIsPreference] = useState(false);
 	const [userLogged, setUserLogged] = useState(false);
-	const [userMongo, setUserMongo] = useState(null);
+	const [userId, setUserId] = useState(null);
 	const toastRef = useRef();
+
+	SecureStore.getItemAsync('userId').then((result) => setUserId(result));
 
 	navigation.setOptions({title: title});
 	firebase.auth().onAuthStateChanged((user) => {
 		user ? setUserLogged(true) : setUserLogged(false);
 	});
-	useEffect(() => {
-		(async () => {
-			firebase.auth().onAuthStateChanged(async (user) => {
-				if (user) {
-					const {claims} = await user.getIdTokenResult();
-					setUserMongo(claims.mongoId);
-				} else {
-					console.log('Error al conectarse a Firebase');
-				}
-			});
-		})();
-	}, []);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -52,7 +43,7 @@ export default function Anounce(props) {
 	);
 	useEffect(() => {
 		if (userLogged && anounce) {
-			getOne('users', userMongo).then((user) => {
+			getOne('users', userId).then((user) => {
 				const preferences = user.preferences.map((preference) => preference.id);
 				const inFav = preferences.filter((pref) => pref === anounce.id);
 				if (inFav.length === 1) {
@@ -60,7 +51,7 @@ export default function Anounce(props) {
 				}
 			});
 		}
-	}, [userLogged, anounce]);
+	}, [userLogged, userId, anounce]);
 
 	const addFavorite = () => {
 		if (!userLogged) {
@@ -71,7 +62,7 @@ export default function Anounce(props) {
 			const payload = {
 				preferences: [anounce.id]
 			};
-			Update('users', payload, userMongo)
+			Update('users', payload, userId)
 				.then((res) => {
 					setIsPreference(true);
 					toastRef.current.show('Anuncio añadido a favoritos');
@@ -88,7 +79,7 @@ export default function Anounce(props) {
 		const payload = {
 			delete_preferences: [anounce.id]
 		};
-		Update('users', payload, userMongo)
+		Update('users', payload, userId)
 			.then((res) => {
 				setIsPreference(false);
 				toastRef.current.show('Anuncio eliminado de favoritos');
@@ -130,7 +121,7 @@ export default function Anounce(props) {
 				onPress={() =>
 					navigation.navigate('opportunities', {
 						screen: 'add-opportunity',
-						params: {id, title, provider, userMongo}
+						params: {id, title, provider, userId}
 					})
 				}
 				/* loading={isLoading} */
