@@ -7,18 +7,18 @@ import firebase from 'firebase/app';
 import {getList, Login} from '../../api/dataProvider';
 import ListAnounces from '../../components/Anounces/ListAnounces';
 
-export default function Anounces(props) {
-	const {navigation} = props;
+export default function AnouncesFiltered(props) {
+	const {navigation, route} = props;
+	const {category} = route.params;
 	const [user, setUser] = useState(null);
 	const [anounces, setAnounces] = useState([]);
 	const [totalAnounces, setTotalAnounces] = useState(0);
 	const [startAnounce, setStartAnounce] = useState(1);
 	const [isLoading, setIsLoading] = useState(false);
-	const [category, setCategory] = useState(null);
 	const limit = 9;
 
 	const data = {
-		filter: {},
+		filter: {category: ['=', `${category}`]},
 		search: {},
 		fields: {},
 		docsPerPage: limit,
@@ -75,70 +75,9 @@ export default function Anounces(props) {
 
 	return (
 		<View style={styles.viewBody}>
-			<Image
-				source={require('../../../assets/img/desktop.png')}
-				resizeMode="contain"
-				style={styles.image}
-			/>
-
-			<View style={styles.viewUserInfo}>
-				<View
-					style={{
-						alignItems: 'center',
-						marginRight: 10,
-						justifyContent: 'center'
-					}}
-				>
-					<Icon
-						raised
-						size={30}
-						type="material-community"
-						name="format-paint"
-						onPress={() =>
-							navigation.navigate('anounces-filtered', {
-								category: '5f4ae64734bd222b049cda69'
-							})
-						}
-					/>
-
-					<Text style={{}}>Pintura</Text>
-				</View>
-				<View
-					style={{
-						alignItems: 'center',
-						marginRight: 10,
-						justifyContent: 'center'
-					}}
-				>
-					<Icon
-						raised
-						size={30}
-						type="material-community"
-						name="hard-hat"
-						/* iconStyle={styles.btnContainer} */
-						onPress={() =>
-							navigation.navigate('anounces-filtered', {
-								category: '5f6662de22b42f00173760be'
-							})
-						}
-					/>
-					<Text>Plomería</Text>
-				</View>
-				<View style={{alignItems: 'center', justifyContent: 'center'}}>
-					<Icon
-						raised
-						size={30}
-						type="material-community"
-						name="cellphone-link"
-						/* iconStyle={styles.btnContainer} */
-						onPress={() => console.log('Aqui')}
-					/>
-					<Text>Electrónica</Text>
-				</View>
-			</View>
-			<Text style={{textAlign: 'center', paddingTop: 15, fontWeight: 'bold'}}>
+			<Text style={{textAlign: 'center', fontWeight: 'bold'}}>
 				{' '}
-				Puede ser de tu interés
+				Anuncios relacionados con:
 			</Text>
 			<ListAnounces
 				anounces={anounces}
@@ -173,7 +112,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		flexDirection: 'row',
 		backgroundColor: '#f2f2f2',
-		/* paddingTop: 10, */
+		paddingTop: 10,
 		paddingBottom: 10
 	},
 	btnContainer: {
@@ -186,7 +125,8 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		height: 250,
-		width: '100%'
+		width: '100%',
+		marginBottom: 25
 	},
 	iconRigth: {
 		backgroundColor: 'white',

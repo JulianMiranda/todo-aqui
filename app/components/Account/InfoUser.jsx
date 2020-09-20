@@ -91,7 +91,7 @@ export default function InfoUser(props) {
 				<Text style={styles.displayName}>
 					{displayName ? displayName : 'Anónimo'}
 				</Text>
-				<Text>{email ? email : 'Socia Login'}</Text>
+				<Text>{email ? email : 'Social Login'}</Text>
 			</View>
 		</View>
 	);
