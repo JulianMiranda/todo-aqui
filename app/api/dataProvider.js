@@ -19,6 +19,25 @@ async function getList(resource, params) {
 		console.error(error);
 	}
 }
+async function getListNoAuth(resource, params) {
+	try {
+		const body = params;
+
+		const config = {
+			method: 'post',
+			url: `${apiUrl}/${resource}/getList`,
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			data: JSON.stringify(body)
+		};
+		const {data} = await axios(config);
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
+}
 async function getOne(resource, params) {
 	try {
 		const headers = await getHeaders();
@@ -99,4 +118,4 @@ async function Login() {
 		console.error(error);
 	}
 }
-export {getList, Create, getOne, Update, Login};
+export {getList, getListNoAuth, Create, getOne, Update, Login};

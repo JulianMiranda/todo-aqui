@@ -4,8 +4,9 @@ import {Icon} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
-import {getList, Login} from '../../api/dataProvider';
+import {getList, getListNoAuth} from '../../api/dataProvider';
 import ListAnounces from '../../components/Anounces/ListAnounces';
+import Iconos from '../../components/Anounces/Iconos';
 
 export default function AnouncesFiltered(props) {
 	const {navigation, route} = props;
@@ -13,10 +14,23 @@ export default function AnouncesFiltered(props) {
 	const [user, setUser] = useState(null);
 	const [anounces, setAnounces] = useState([]);
 	const [totalAnounces, setTotalAnounces] = useState(0);
+	const [categories, setCategories] = useState([]);
+	const [totalCategories, setTotalCategories] = useState(0);
 	const [startAnounce, setStartAnounce] = useState(1);
 	const [isLoading, setIsLoading] = useState(false);
+	const [imageUrl, setImageUrl] = useState();
 	const limit = 9;
 
+	const dataCat = {
+		population: [
+			{
+				path: 'image',
+				fields: {
+					url: true
+				}
+			}
+		]
+	};
 	const data = {
 		filter: {category: ['=', `${category}`]},
 		search: {},
@@ -44,6 +58,14 @@ export default function AnouncesFiltered(props) {
 			}
 		]
 	};
+	useEffect(() => {
+		getList('categories', dataCat).then((result) => {
+			const a = result.data.filter((item) => category === item.id);
+			setImageUrl(a[0].image.url);
+			setTotalCategories(result.count);
+			setCategories(a);
+		});
+	}, []);
 
 	useEffect(() => {
 		firebase.auth().onAuthStateChanged((userInfo) => {
@@ -53,7 +75,7 @@ export default function AnouncesFiltered(props) {
 
 	useFocusEffect(
 		useCallback(() => {
-			getList('anounces', data).then((result) => {
+			getListNoAuth('anounces', data).then((result) => {
 				setTotalAnounces(result.count);
 				setAnounces(result.data);
 				setStartAnounce(2);
@@ -75,10 +97,20 @@ export default function AnouncesFiltered(props) {
 
 	return (
 		<View style={styles.viewBody}>
-			<Text style={{textAlign: 'center', fontWeight: 'bold'}}>
-				{' '}
-				Anuncios relacionados con:
-			</Text>
+			{/* <Text style={styles.text}> Que estas Buscando</Text> */}
+			<View style={styles.Img}>
+				<Iconos categories={categories} />
+				<Image
+					source={
+						imageUrl
+							? {uri: imageUrl}
+							: require('../../../assets/img/no-image.png')
+					}
+					/* source={{uri: 'https://source.unsplash.com/200x100/'}} */
+					resizeMode="contain"
+					style={styles.image}
+				/>
+			</View>
 			<ListAnounces
 				anounces={anounces}
 				handleLoadMore={handleLoadMore}
@@ -103,6 +135,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#fff'
 	},
+	Img: {
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
 	scrollView: {
 		/* position: 'absolute', */
 		height: '100%'
@@ -124,7 +160,8 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.5
 	},
 	image: {
-		height: 250,
+		height: 230,
+		opacity: 0.25,
 		width: '100%',
 		marginBottom: 25
 	},

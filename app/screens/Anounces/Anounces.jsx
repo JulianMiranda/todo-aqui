@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {StyleSheet, View, Text, ScrollView, Image} from 'react-native';
+import {StyleSheet, View, Text, Button, ScrollView, Image} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {useFocusEffect} from '@react-navigation/native';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
-import {getList, Login} from '../../api/dataProvider';
+import {getList, getListNoAuth} from '../../api/dataProvider';
 import ListAnounces from '../../components/Anounces/ListAnounces';
 
 export default function Anounces(props) {
@@ -53,7 +53,7 @@ export default function Anounces(props) {
 
 	useFocusEffect(
 		useCallback(() => {
-			getList('anounces', data).then((result) => {
+			getListNoAuth('anounces', data).then((result) => {
 				setTotalAnounces(result.count);
 				setAnounces(result.data);
 				setStartAnounce(2);
@@ -131,7 +131,11 @@ export default function Anounces(props) {
 						type="material-community"
 						name="cellphone-link"
 						/* iconStyle={styles.btnContainer} */
-						onPress={() => console.log('Aqui')}
+						onPress={() =>
+							navigation.navigate('anounces-filtered', {
+								category: '5f69214ea207370017519da7'
+							})
+						}
 					/>
 					<Text>Electrónica</Text>
 				</View>
@@ -158,7 +162,24 @@ export default function Anounces(props) {
 		</View>
 	);
 }
+function UserNoLogged(props) {
+	const {navigation} = props;
 
+	return (
+		<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+			<Icon type="material-community" name="alert-outline" size={50} />
+			<Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+				Necesitas estar logeado para ver esta sección
+			</Text>
+			<Button
+				title="Ir al login"
+				containerStyle={{marginTop: 20, width: '80%'}}
+				buttonStyle={{backgroundColor: '#00a680'}}
+				onPress={() => navigation.navigate('account', {screen: 'login'})}
+			/>
+		</View>
+	);
+}
 const styles = StyleSheet.create({
 	viewBody: {
 		flex: 1,
