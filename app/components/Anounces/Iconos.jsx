@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -8,29 +8,136 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import {Image} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 import {size} from 'lodash';
 import {useNavigation} from '@react-navigation/native';
+import {getListNoAuth} from '../../api/dataProvider';
 
 export default function Iconos(props) {
 	const {categories} = props;
-
 	const navigation = useNavigation();
-	const [x, setX] = useState();
-	const a = {};
+	const [subcategories0, setsubcategories0] = useState({});
+	const [subcategories1, setsubcategories1] = useState({});
+	const [subcategories2, setsubcategories2] = useState({});
+	const category = {};
 	if (categories.length !== 0) {
-		a.name = categories[0].name;
+		category.name = categories[0].name;
+		category.id = categories[0].id;
 	}
+	const IcoNames = {};
+	if (category.name === 'Pintura') {
+		IcoNames.name0 = 'heart-outline';
+		IcoNames.name1 = 'heart-outline';
+		IcoNames.name2 = 'heart-outline';
+	}
+	useEffect(() => {
+		if (size(categories) > 0) {
+			const data = {
+				filter: {category: ['=', `${category.id}`]},
+				search: {},
+				fields: {},
+				population: [
+					{
+						path: 'image',
+						fields: {
+							url: true
+						}
+					},
+					{
+						path: 'category',
+						fields: {
+							name: true
+						}
+					}
+				]
+			};
+			getListNoAuth('subcategories', data).then((result) => {
+				setsubcategories0(result.data[0]);
+				setsubcategories1(result.data[1]);
+				setsubcategories2(result.data[2]);
+			});
+		}
+	}, [categories]);
+	console.log(IcoNames.name0);
 	return (
-		<View>
-			<Text style={styles.text}>{a.name ? a.name : ''}</Text>
+		<View style={styles.body}>
+			<Text style={styles.text}>{category.name ? category.name : ''}</Text>
+			<View style={styles.viewUserInfo}>
+				<View
+					style={{
+						alignItems: 'center',
+						marginRight: 10,
+						justifyContent: 'center'
+					}}
+				>
+					<Icon
+						raised
+						size={30}
+						type="material-community"
+						name={IcoNames.name0}
+						onPress={() => console.log('aki')}
+					/>
+					<Text style={{}}>
+						{subcategories0.name ? subcategories0.name : ''}
+					</Text>
+				</View>
+				<View
+					style={{
+						alignItems: 'center',
+						marginRight: 10,
+						justifyContent: 'center'
+					}}
+				>
+					<Icon
+						raised
+						size={30}
+						type="material-community"
+						name={IcoNames.name1}
+						/* iconStyle={styles.btnContainer} */
+						onPress={
+							() => console.log('aki')
+							/* navigation.navigate('anounces-filtered', {
+								category: '5f6662de22b42f00173760be'
+							}) */
+						}
+					/>
+					<Text>{subcategories1.name ? subcategories1.name : ''}</Text>
+				</View>
+				<View style={{alignItems: 'center', justifyContent: 'center'}}>
+					<Icon
+						raised
+						size={30}
+						type="material-community"
+						name={IcoNames.name2}
+						/* iconStyle={styles.btnContainer} */
+						onPress={
+							() => console.log('Aki')
+							/* navigation.navigate('anounces-filtered', {
+								category: '5f69214ea207370017519da7'
+							}) */
+						}
+					/>
+					<Text>{subcategories2.name ? subcategories2.name : ''}</Text>
+				</View>
+			</View>
 		</View>
 	);
 }
 const styles = StyleSheet.create({
+	body: {
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
 	text: {
-		/* position: 'absolute', */
-		marginRight: 30,
-		fontSize: 30
+		color: '#444442',
+		fontSize: 40
+	},
+	viewUserInfo: {
+		alignItems: 'flex-start',
+		justifyContent: 'center',
+		flexDirection: 'row',
+		backgroundColor: 'transparent',
+		paddingBottom: 10
 	},
 	loaderAnounces: {
 		marginTop: 10,

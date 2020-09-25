@@ -5,8 +5,8 @@ import {useFocusEffect} from '@react-navigation/native';
 import {firebaseApp} from '../../utils/firebase';
 import firebase from 'firebase/app';
 import {getList, getListNoAuth} from '../../api/dataProvider';
+import ImageBody from '../../components/Anounces/ImageBody';
 import ListAnounces from '../../components/Anounces/ListAnounces';
-import Iconos from '../../components/Anounces/Iconos';
 
 export default function AnouncesFiltered(props) {
 	const {navigation, route} = props;
@@ -97,8 +97,13 @@ export default function AnouncesFiltered(props) {
 
 	return (
 		<View style={styles.viewBody}>
-			{/* <Text style={styles.text}> Que estas Buscando</Text> */}
-			<View style={styles.Img}>
+			<ImageBody
+				imageUrl={imageUrl}
+				categories={categories}
+				handleLoadMore={handleLoadMore}
+				isLoading={isLoading}
+			/>
+			{/* <View style={styles.Img}>
 				<Iconos categories={categories} />
 				<Image
 					source={
@@ -106,11 +111,11 @@ export default function AnouncesFiltered(props) {
 							? {uri: imageUrl}
 							: require('../../../assets/img/no-image.png')
 					}
-					/* source={{uri: 'https://source.unsplash.com/200x100/'}} */
+					
 					resizeMode="contain"
 					style={styles.image}
 				/>
-			</View>
+			</View> */}
 			<ListAnounces
 				anounces={anounces}
 				handleLoadMore={handleLoadMore}
