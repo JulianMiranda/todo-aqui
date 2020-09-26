@@ -103,19 +103,7 @@ export default function AnouncesFiltered(props) {
 				handleLoadMore={handleLoadMore}
 				isLoading={isLoading}
 			/>
-			{/* <View style={styles.Img}>
-				<Iconos categories={categories} />
-				<Image
-					source={
-						imageUrl
-							? {uri: imageUrl}
-							: require('../../../assets/img/no-image.png')
-					}
-					
-					resizeMode="contain"
-					style={styles.image}
-				/>
-			</View> */}
+
 			<ListAnounces
 				anounces={anounces}
 				handleLoadMore={handleLoadMore}

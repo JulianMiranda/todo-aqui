@@ -19,17 +19,29 @@ export default function Iconos(props) {
 	const [subcategories0, setsubcategories0] = useState({});
 	const [subcategories1, setsubcategories1] = useState({});
 	const [subcategories2, setsubcategories2] = useState({});
+	const [state, setState] = useState(30);
+	console.log(state);
 	const category = {};
 	if (categories.length !== 0) {
 		category.name = categories[0].name;
 		category.id = categories[0].id;
 	}
 	const IcoNames = {};
+
 	if (category.name === 'Pintura') {
-		IcoNames.name0 = 'heart-outline';
-		IcoNames.name1 = 'heart-outline';
-		IcoNames.name2 = 'heart-outline';
+		IcoNames.name0 = 'home-city-outline';
+		IcoNames.name1 = 'car-side';
+		IcoNames.name2 = 'hospital-building';
+	} else if (category.name === 'Plomeria') {
+		IcoNames.name0 = 'wind-turbine';
+		IcoNames.name1 = 'toilet';
+		IcoNames.name2 = 'fridge-outline';
+	} else {
+		IcoNames.name0 = 'wind-turbine';
+		IcoNames.name1 = 'toilet';
+		IcoNames.name2 = 'fridge-outline';
 	}
+
 	useEffect(() => {
 		if (size(categories) > 0) {
 			const data = {
@@ -58,7 +70,9 @@ export default function Iconos(props) {
 			});
 		}
 	}, [categories]);
-	console.log(IcoNames.name0);
+	const openAppMap = () => {
+		return setState(10);
+	};
 	return (
 		<View style={styles.body}>
 			<Text style={styles.text}>{category.name ? category.name : ''}</Text>
@@ -95,7 +109,7 @@ export default function Iconos(props) {
 						name={IcoNames.name1}
 						/* iconStyle={styles.btnContainer} */
 						onPress={
-							() => console.log('aki')
+							openAppMap
 							/* navigation.navigate('anounces-filtered', {
 								category: '5f6662de22b42f00173760be'
 							}) */
@@ -123,6 +137,7 @@ export default function Iconos(props) {
 		</View>
 	);
 }
+
 const styles = StyleSheet.create({
 	body: {
 		alignItems: 'center',

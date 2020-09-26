@@ -30,6 +30,7 @@ export default function ImageBody(props) {
 								: require('../../../assets/img/no-image.png')
 						}
 						featured
+						imageProps={{PlaceholderContent: <ActivityIndicator />}}
 						containerStyle={{marginStart: 5, height: 10, opacity: 0.25}}
 						titleStyle={{fontSize: 42, color: '#666660', fontWeight: 'bold'}}
 						height={160}
