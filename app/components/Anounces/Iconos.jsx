@@ -14,13 +14,19 @@ import {useNavigation} from '@react-navigation/native';
 import {getListNoAuth} from '../../api/dataProvider';
 
 export default function Iconos(props) {
-	const {categories} = props;
+	const {categories, setImageWith} = props;
 	const navigation = useNavigation();
 	const [subcategories0, setsubcategories0] = useState({});
 	const [subcategories1, setsubcategories1] = useState({});
 	const [subcategories2, setsubcategories2] = useState({});
-	const [state, setState] = useState(30);
-	console.log(state);
+	const [icon0, seticon0] = useState(30);
+	const [icon1, seticon1] = useState(30);
+	const [icon2, seticon2] = useState(30);
+	const [state, setState] = useState({
+		color: '#444442',
+		fontSize: 40
+	});
+
 	const category = {};
 	if (categories.length !== 0) {
 		category.name = categories[0].name;
@@ -37,9 +43,9 @@ export default function Iconos(props) {
 		IcoNames.name1 = 'toilet';
 		IcoNames.name2 = 'fridge-outline';
 	} else {
-		IcoNames.name0 = 'wind-turbine';
-		IcoNames.name1 = 'toilet';
-		IcoNames.name2 = 'fridge-outline';
+		IcoNames.name0 = 'television';
+		IcoNames.name1 = 'laptop-chromebook';
+		IcoNames.name2 = 'cellphone-android';
 	}
 
 	useEffect(() => {
@@ -70,12 +76,42 @@ export default function Iconos(props) {
 			});
 		}
 	}, [categories]);
-	const openAppMap = () => {
-		return setState(10);
+	const handleIcon0 = () => {
+		const object = {color: 'red', fontSize: 0.1};
+		seticon0(30);
+		seticon1(15);
+		seticon2(15);
+		setImageWith(110);
+		return setState(object);
+	};
+	const handleIcon1 = () => {
+		const object = {color: 'red', fontSize: 0.1};
+		seticon0(15);
+		seticon1(30);
+		seticon2(15);
+		setImageWith(110);
+		return setState(object);
+	};
+	const handleIcon2 = () => {
+		const object = {color: 'red', fontSize: 0.1};
+		seticon0(15);
+		seticon1(15);
+		seticon2(30);
+		setImageWith(110);
+		return setState(object);
 	};
 	return (
 		<View style={styles.body}>
-			<Text style={styles.text}>{category.name ? category.name : ''}</Text>
+			<Text
+				style={{
+					color: state.color,
+					fontSize: state.fontSize
+				}}
+
+				/* style={styles.text} */
+			>
+				{category.name ? category.name : ''}
+			</Text>
 			<View style={styles.viewUserInfo}>
 				<View
 					style={{
@@ -86,10 +122,10 @@ export default function Iconos(props) {
 				>
 					<Icon
 						raised
-						size={30}
+						size={icon0}
 						type="material-community"
 						name={IcoNames.name0}
-						onPress={() => console.log('aki')}
+						onPress={handleIcon0}
 					/>
 					<Text style={{}}>
 						{subcategories0.name ? subcategories0.name : ''}
@@ -104,32 +140,21 @@ export default function Iconos(props) {
 				>
 					<Icon
 						raised
-						size={30}
+						size={icon1}
 						type="material-community"
 						name={IcoNames.name1}
-						/* iconStyle={styles.btnContainer} */
-						onPress={
-							openAppMap
-							/* navigation.navigate('anounces-filtered', {
-								category: '5f6662de22b42f00173760be'
-							}) */
-						}
+						onPress={handleIcon1}
 					/>
 					<Text>{subcategories1.name ? subcategories1.name : ''}</Text>
 				</View>
 				<View style={{alignItems: 'center', justifyContent: 'center'}}>
 					<Icon
 						raised
-						size={30}
+						size={icon2}
 						type="material-community"
 						name={IcoNames.name2}
 						/* iconStyle={styles.btnContainer} */
-						onPress={
-							() => console.log('Aki')
-							/* navigation.navigate('anounces-filtered', {
-								category: '5f69214ea207370017519da7'
-							}) */
-						}
+						onPress={handleIcon2}
 					/>
 					<Text>{subcategories2.name ? subcategories2.name : ''}</Text>
 				</View>

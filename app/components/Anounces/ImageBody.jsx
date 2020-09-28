@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -14,6 +14,7 @@ import Iconos from './Iconos';
 
 export default function ImageBody(props) {
 	const {categories, imageUrl, isLoading} = props;
+	const [imageWith, setImageWith] = useState(160);
 	const navigation = useNavigation();
 	const a = {};
 	if (categories.length !== 0) {
@@ -31,12 +32,16 @@ export default function ImageBody(props) {
 						}
 						featured
 						imageProps={{PlaceholderContent: <ActivityIndicator />}}
-						containerStyle={{marginStart: 5, height: 10, opacity: 0.25}}
+						containerStyle={{
+							marginStart: 5,
+							height: 10,
+							opacity: 0.25
+						}}
 						titleStyle={{fontSize: 42, color: '#666660', fontWeight: 'bold'}}
-						height={160}
+						height={imageWith}
 						width={'98%'}
 					/>
-					<Iconos categories={categories} />
+					<Iconos setImageWith={setImageWith} categories={categories} />
 				</View>
 			) : (
 				<View style={styles.loaderAnounces}>
